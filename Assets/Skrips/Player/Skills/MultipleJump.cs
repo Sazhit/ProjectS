@@ -6,12 +6,16 @@ public class MultipleJump : Skill
 {
     [SerializeField] private float _jumpForce;
     [SerializeField] private int _jumpsNumber;
-    public int _jumpCounter;
+    private int _jumpCounter;
+
+    [SerializeField] private BoxInteracting _boxInteracting;
 
     [SerializeField] private float _coyoteTime;
-    public float _coyoteTimer;
+    private float _coyoteTimer;
 
-    private PlayerGroundChecker _groundChecker;
+    private  PlayerGroundChecker _groundChecker;
+
+    public float JumpForce { get => _jumpForce; set => _jumpForce = value; }
 
     private void Start()
     {
@@ -44,7 +48,9 @@ public class MultipleJump : Skill
     {
         base.Use(player);
 
-        player.Rb2D.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+        player.Rb2D.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
+
+        _boxInteracting.CancelObjectCapture();
 
         _jumpCounter--;
     }
@@ -61,4 +67,5 @@ public class MultipleJump : Skill
             _coyoteTimer -= Time.deltaTime;
         }
     }
+
 }
