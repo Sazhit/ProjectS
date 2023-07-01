@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class Shield : Skill
 {
@@ -12,14 +13,24 @@ public class Shield : Skill
 
     [Header("Settinge")]
     [SerializeField] protected float duration;
+    [SerializeField] private bool _isShield;
 
     protected GameObject shieldProjectile;
     
     private Camera mainCam;
 
+    private ObjectPool<GameObject> projectilePool;
+
     private void Start()
     {
         mainCam = Camera.main;
+
+        projectilePool = new ObjectPool<GameObject>(() =>
+        {
+            GameObject obj = Instantiate(projectilePrefab);
+            obj.SetActive(true);
+            return obj;
+        });
     }
 
     private void Update()
@@ -31,16 +42,28 @@ public class Shield : Skill
     }
     public override bool CanUse(PlayerController player)
     {
-        return base.CanUse(player) && shieldProjectile == null;
+        return base.CanUse(player) && _isShield;
     }
 
     public override void Use(PlayerController player)
     {
         base.Use(player);
 
-        shieldProjectile = Instantiate(projectilePrefab, player.transform.position, Quaternion.identity);
-        Destroy(shieldProjectile, duration);
+        shieldProjectile = projectilePool.Get();
+        shieldProjectile.transform.position = player.transform.position;
+        shieldProjectile.SetActive(true);
+        _isShield = false;
     }
+
+    public override void DoNotUse(PlayerController player)
+    {
+        base.DoNotUse(player);
+
+        projectilePool.Release(shieldProjectile);
+        shieldProjectile.SetActive(false);
+        _isShield = true;
+    }
+
 
     private void MoveShield()
     {

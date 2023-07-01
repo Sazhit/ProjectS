@@ -409,7 +409,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 5359917118780306829, guid: c23758289bbd1f141839385eb7d36578, type: 3}
   _durability: 10
-  duration: 10
+  duration: 3
+  _isShield: 1
 --- !u!114 &504904013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -536,6 +537,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 5359917118780306829, guid: c23758289bbd1f141839385eb7d36578, type: 3}
   _durability: 0
   duration: 10
+  _isShield: 0
   _spherePrefab: {fileID: 698071029741785687, guid: 80ee981d62105e6498122f56ba466a04, type: 3}
   shootForce: 19.66
   _distance: 1.5

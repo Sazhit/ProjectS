@@ -30,8 +30,9 @@ public class PlayerController : MonoBehaviour
     {
         OnJump();
         OnDash();
-        OnShield();
         OnShoot();
+        OnShield();
+        TakeAwayShield();
     }
 
     private void FixedUpdate()
@@ -66,6 +67,14 @@ public class PlayerController : MonoBehaviour
             {
                 skills[SkillID.SHIELD].Use(this);
             }
+        }
+    }
+
+    private void TakeAwayShield()
+    {
+        if (Input.GetKeyUp(KeyCode.Q))
+        {
+            skills[SkillID.SHIELD].DoNotUse(this);
         }
     }
 

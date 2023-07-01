@@ -7,6 +7,8 @@ public abstract class Skill : MonoBehaviour
     public virtual bool CanUse(PlayerController player) { return true; }
 
     public virtual void Use(PlayerController player) { }
+
+    public virtual void DoNotUse(PlayerController player) { }
 }
 
 
